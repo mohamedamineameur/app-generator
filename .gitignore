@@ -1,0 +1,22 @@
+# Ignore environment variable files
+.env
+.env.*
+
+# Ignore SQLite database files
+*.sqlite
+*.sqlite3
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore node_modules and dependencies
+node_modules/
+vendor/
