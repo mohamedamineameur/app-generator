@@ -210,6 +210,9 @@ export function deleteUser(req: any, res: any): void {
     // Ensure the user is authenticated
     // Ensure the user is given the right password before deletion
     const { password } = req.body;
+    try {
+        userSchema(req.body).deleteByIdSchema();
+   
     if (!password) {
         res.status(400).json({ error: "Password is required for deletion." });
         return;
@@ -230,6 +233,7 @@ export function deleteUser(req: any, res: any): void {
             return;
         }
         const userId = decoded.id;
+        console.log(userId)
         User.findByPk(userId)
             .then((user) => {
                 if (!user) {
@@ -253,6 +257,12 @@ export function deleteUser(req: any, res: any): void {
                 res.status(500).json({ error: "An error occurred while deleting the user." });
             });
     });
+}
+catch (error) {
+    console.error("Error in deleteUser:", error);
+    res.status(400).json({ error: (error instanceof Error) ? error.message : "An unknown error occurred." });
+    return;
+}
 }
 export function updateUserPartialyOrCompletely(req: any, res: any): void {
     const { firstName, lastName, email, oldPassword, newPassword, passwordConfirmation } = req.body;

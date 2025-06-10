@@ -2,8 +2,12 @@ import { r } from "@faker-js/faker/dist/airline-BUL6NtOJ";
 
 export function userSchema(body: any) {
    
+   
 
     function registerSchema() {
+        if (!body){
+            throw new Error('no body')
+        }
         const requiredFields = [
             "email",
             "password",
@@ -37,6 +41,9 @@ export function userSchema(body: any) {
     }
 
     function loginSchema() {
+        if (!body){
+            throw new Error('no body')
+        }
         const requiredFields = ["email", "password"];
         // Check for missing required fields
         for (const field of requiredFields) {
@@ -94,6 +101,9 @@ export function userSchema(body: any) {
     }
 
     function updateByIdSchema(){
+        if (!body){
+            throw new Error('no body')
+        }
         const requiredFields = ["roleId"];
         // Check for missing required fields
         for (const field of requiredFields) {
@@ -111,11 +121,30 @@ export function userSchema(body: any) {
             throw new Error("Invalid roleId format");
         }
     }
+    function deleteByIdSchema() {
+        if (!body){
+            throw new Error('no body')
+        }
+        const requiredFields = ["password"];
+        // Check for missing required fields
+        for (const field of requiredFields) {
+            if (!body[field]) {
+                throw new Error(`${field.charAt(0).toUpperCase() + field.slice(1)} is required`);
+            }
+        }
+        // Check for extra fields
+        const extraFields = Object.keys(body).filter((key) => !requiredFields.includes(key));
+        if (extraFields.length > 0) {
+            throw new Error(`Unexpected fields: ${extraFields.join(", ")}`);
+        }
+        
+    }
 
         return {
             registerSchema,
             loginSchema,
             updatePartialyOrCompletlySchema,
-            updateByIdSchema
+            updateByIdSchema,
+            deleteByIdSchema
         };
 }
