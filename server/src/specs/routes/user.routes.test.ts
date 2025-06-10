@@ -3,7 +3,6 @@ import request from "supertest";
 import { preTestSetup } from "../../utils/pre-test";
 import { faker } from "@faker-js/faker/.";
 import { createUserFixture } from "../fixtures/user.fixture";
-import { u } from "@faker-js/faker/dist/airline-BUL6NtOJ";
 
 describe("User Routes", () => {
  
