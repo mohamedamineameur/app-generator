@@ -2,6 +2,7 @@ import User from "../models/user.model";
 import dotenv from "dotenv";
 import jsonwebtoken from "jsonwebtoken";
 import { userSchema } from "../schemas/user.schemas";
+import bcrypt from "bcrypt"
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -79,7 +80,8 @@ export function login(req: { body: { email: string; password: string } }, res: a
                 return;
             }
             // Note: Password should be hashed and compared in production
-            if (user.password !== password) {
+            const isPasswordValid = bcrypt.compareSync(password, user.password);
+            if (!isPasswordValid) {
                 res.status(401).json({ error: "Invalid email or password." });
                 return;
             }
@@ -233,7 +235,6 @@ export function deleteUser(req: any, res: any): void {
             return;
         }
         const userId = decoded.id;
-        console.log(userId)
         User.findByPk(userId)
             .then((user) => {
                 if (!user) {

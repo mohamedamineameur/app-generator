@@ -39,7 +39,6 @@ Route.init(
     modelName: "Route",
     tableName: "routes",
     timestamps: true,
-    underscored: true, 
     indexes: [
       {
         unique: true,

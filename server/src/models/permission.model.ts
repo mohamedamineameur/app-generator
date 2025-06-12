@@ -49,7 +49,6 @@ Permission.init(
     modelName: "Permission",
     tableName: "permissions",
     timestamps: true,
-    underscored: true,
     indexes: [
       {
         unique: true,

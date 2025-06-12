@@ -3,6 +3,9 @@ import request from "supertest";
 import { preTestSetup } from "../../utils/pre-test";
 import { faker } from "@faker-js/faker/.";
 import { createUserFixture } from "../fixtures/user.fixture";
+import { createRoleFixture } from "../fixtures/role.fixture";
+import { createPermissionFixture } from "../fixtures/permission.fixture";
+import { createRouteFixture } from "../fixtures/route.fixture";
 
 describe("User Routes", () => {
  
@@ -164,15 +167,19 @@ it ("should return 401 for invalid credentials password", async () => {
     expect(response.body.error).toBe("Invalid email or password.");  
 }
 );
-it ("should get me after login with token wraped in cookie", async () => {
+it.only ("should get me after login with token wraped in cookie", async () => {
     // Pre-test setup to clear the database and create a default role
     await preTestSetup();
-    const user = await createUserFixture();
+    const password = 'ValidPassword123@';
+    const role = await createRoleFixture();
+    const user = await createUserFixture({password:password, roleId: role.id });
+    const route = await createRouteFixture({name:"/api/users/me", description:"GET"});
+    const permission = await createPermissionFixture({ routeId: route.id.toString(), roleId: role.id.toString() });
     const loginResponse = await request(app)
       .post("/api/users/login")
       .send({
         email: user.email,
-        password: user.password
+        password: password
       })
       .expect(200);
       const cookie = loginResponse.headers['set-cookie'][0];
@@ -226,16 +233,16 @@ it("should delete user", async ()=>{
  it("should not delete user without password", async () => {
     // Pre-test setup to clear the database and create a default role
     await preTestSetup();
-    const user = await createUserFixture();
+    const password = 'ValidPassword123@';
+    const user = await createUserFixture({ password: password });
     const loginResponse = await request(app)
       .post("/api/users/login")
       .send({
         email: user.email,
-        password: user.password
+        password: password
       })
       .expect(200);
     const cookie = loginResponse.headers['set-cookie'][0];
-
     const response = await request(app)
       .delete("/api/users/delete")
       .send({})
@@ -245,6 +252,30 @@ it("should delete user", async ()=>{
     expect(response.body.error).toBe("Password is required");
   }
   );
+
+  it("test special", async() => {
+    // Pre-test setup to clear the database and create a default role
+    await preTestSetup();
+    const role = await createRoleFixture();
+    const user = await createUserFixture({password:'ValidPassword123@', roleId: role.id });
+    const route = await createRouteFixture({name:"/api/users/logout", description:"POST"});
+    const permission = await createPermissionFixture({ routeId: route.id.toString(), roleId: role.id.toString() });
+    const loginResponse = await request(app)
+      .post("/api/users/login")
+      .send({
+        email: user.email,
+        password: 'ValidPassword123@'
+      })
+      .expect(200);
+    const cookie = loginResponse.headers['set-cookie'][0];
+    const response = await request(app)
+      .post("/api/users/logout")
+      .set("Cookie", cookie)
+      .expect(200);
+    expect(response.body).toHaveProperty("message");
+    expect(response.body.message).toBe("Logout successful.")
+  }
+    )
     
 
 });

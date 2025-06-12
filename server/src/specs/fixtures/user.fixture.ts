@@ -25,6 +25,7 @@ export const createUserFixture = (overrides: UserOverrides = {}) => {
   if (!overrides.roleId) {
     overrides.roleId = null
   }
+
   const user = User.create({
     email: overrides.email,
     password: overrides.password,

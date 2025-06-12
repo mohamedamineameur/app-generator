@@ -7,3 +7,5 @@ export const sequelize = new Sequelize({
     storage: isTestMode ? ':memory:' : './database.sqlite',
     logging: false, 
 });
+
+

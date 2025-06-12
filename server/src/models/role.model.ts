@@ -39,7 +39,6 @@ Role.init(
       modelName: "Role",
       tableName: "roles",
       timestamps: true,
-      underscored: true, 
     
     }
   );
