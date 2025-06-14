@@ -1,77 +1,39 @@
-import Role from "../models/role.model";
-import Permission from "../models/permission.model";
-import Route from "../models/route.model";
 import User from "../models/user.model";
-import dotenv from 'dotenv';
-import jsonwebtoken from 'jsonwebtoken';
+import jsonwebtoken from "jsonwebtoken";
+import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
-
 dotenv.config();
-// Middleware to check user authorization
-const JWT_SECRET = process.env.JWT_SECRET;
+// secret key for JWT
+const secretKey = process.env.JWT_SECRET;
+// Middleware to check if the user has the required role using JWT token wrapped in cookie
+export function hasRole(requiredRole: string) {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!secretKey) {
+        throw new Error("JWT_SECRET is not defined in the environment variables");
+      }
 
-interface CustomRequest extends Request {
-    body: Record<string, any>;
-}
+      // Get the token from the cookie
+      const token = req.cookies.token;
+      if (!token) {
+        return res.status(401).json({ error: "No token provided" });
+      }
 
-export async function isAdmin(req: CustomRequest, res: Response, next: NextFunction) {
-    const token = req.cookies.token;
-    if (token) {
-        try {
-            const decoded = await jsonwebtoken.verify(token, JWT_SECRET as string);
-            const userId = (decoded as { id: string }).id;
-            const user = await User.findByPk(userId);
-            if (user) {
-                const role = await Role.findByPk(user.roleId);
-                if (role && role.name === 'admin') {
-                    next();
-                } else {
-                    res.status(403).json({ message: 'Access forbidden' });
-                }
-            } else {
-                res.status(404).json({ message: 'User not found' });
-            }
-        } catch (error) {
-            console.error('Token verification error:', error);
-            res.status(401).json({ message: 'Invalid or expired token' });
-        }
-    } else {
-        res.status(401).json({ message: 'Token missing' });
+      // Verify the token
+      const decoded = jsonwebtoken.verify(token, secretKey) as { id: string };
+      const user = await User.findByPk(decoded.id);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Check if the user has the required role
+      if (user.role !== requiredRole) {
+        return res.status(403).json({ error: "Forbidden: Insufficient permissions" });
+      }
+
+      next(); // User has the required role, proceed to the next middleware or route handler
+    } catch (error) {
+      res.status(401).json({ error: error instanceof Error ? error.message : "Invalid token" });
     }
-    return;
-}
-
-export async function isAuthorized(req: CustomRequest, res: Response, next: NextFunction) {
-    const token = req.cookies.token;
-    if (token) {
-        try {
-            const decoded = await jsonwebtoken.verify(token, JWT_SECRET as string);
-            const userId = (decoded as { id: string }).id;
-            const user = await User.findByPk(userId);
-            const role = await Role.findByPk(user?.roleId);
-
-            const permissions = await Permission.findAll({
-                where: {
-                    roleId: role?.id
-                }
-            });
-
-            const route = await Route.findOne({
-                where: {
-                    id: permissions.map(p => p.routeId),
-                    name: req.originalUrl,
-                    description: req.method
-                }
-            });
-
-            if (route) {
-                next(); // Authorization successful, proceed to the next handler
-            } else {
-                res.status(403).json({ message: 'Access forbidden' }); // No authorization for this route
-            }
-        } catch (error) {
-            console.error('Token verification error:', error);
-            res.status(401).json({ message: 'Invalid or expired token' }); // Invalid or expired token
-        }
-    }
+  };
 }
