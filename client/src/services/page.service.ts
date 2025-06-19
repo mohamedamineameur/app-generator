@@ -14,10 +14,16 @@ import api from "./main.service";
       const getAllPages = async () => {
           return await api.get("/pages");
       };
+      const getAllPagesManager = async () => {
+        return await api.get("/pages/manage");
+    };
 
       const getPageById = async (id: string) => {
           return await api.get("/pages/" + id);
       };
+      const getPageByIdManage = async (id: string) => {
+        return await api.get("/pages/manage/" + id);
+    };
 
       const updatePage = async (id: string, page: Omit<Page, "id">) => {
           return await api.patch("/pages/" + id, page);
@@ -32,7 +38,9 @@ import api from "./main.service";
         getAllPages,
         getPageById,
         updatePage,
-        deletePage
+        deletePage,
+        getAllPagesManager,
+        getPageByIdManage
       };
   }
   

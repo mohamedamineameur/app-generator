@@ -1,16 +1,16 @@
 
-  import Page from '../models/page.model';
-  import { pageSchema } from '../schemas/page.schema';
+  import Content from '../models/content.model';
+  import { contentSchema } from '../schemas/content.schema';
   import { validateSchema } from '../utils/validateSchema';
   
   
-  export async function createPage(req:any, res:any) {
+  export async function createContent(req:any, res:any) {
     try {
-      const schema = pageSchema().create();
+      const schema = contentSchema().create();
       validateSchema(schema, req.body);
   
-      const newPage = await Page.create(req.body);
-      res.status(201).json(newPage);
+      const newContent = await Content.create(req.body);
+      res.status(201).json(newContent);
     } catch (error) {
         res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
 
@@ -18,9 +18,9 @@
   }
 
 
-  export async function getAllPages(req:any, res:any) {
+  export async function getAllContents(req:any, res:any) {
     try {
-      const items = await Page.findAll({
+      const items = await Content.findAll({
         where: { isPublished: true }
       });
       res.status(200).json(items);
@@ -30,28 +30,30 @@
     }
   }
 
-  export async function getAllPagesManager(req:any, res:any) {
+export async function getAllContentsManager(req:any, res:any) {
     try {
-      const items = await Page.findAll();
+      const items = await Content.findAll();
       res.status(200).json(items);
     } catch (error) {
         res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
+
     }
   }
 
 
-  export async function getPageById(req:any, res:any) {
+  export async function getContentById(req:any, res:any) {
     try {
-      const schema = pageSchema().readById();
+      const schema = contentSchema().readById();
       validateSchema(schema, req.body);
   
-      const item = await Page.findByPk(req.params.id);
+      const item = await Content.findByPk(req.params.id);
       if (!item) {
-        return res.status(404).json({ error: 'Page not found' });
+        return res.status(404).json({ error: 'Content not found' });
       }
       if (!item.isPublished) {
-        return res.status(403).json({ error: 'Page is not published' });
+        return res.status(403).json({ error: 'Content is not published' });
       }
+  
       res.status(200).json(item);
     } catch (error) {
         res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
@@ -59,29 +61,32 @@
     }
   }
 
-  export async function getPageByIdManage(req:any, res:any) {
+export async function getContentByIdManage(req:any, res:any) {
     try {
-      const schema = pageSchema().readById();
-      validateSchema(schema, req.body);
-      const item = await Page.findByPk(req.params.id);
-      if (!item) {
-        return res.status(404).json({ error: 'Page not found' });
-      }
-      res.status(200).json(item);
-    } catch (error) {
-        res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
-    }
-  }
-
-
-  export async function updatePage(req:any, res:any) {
-    try {
-      const schema = pageSchema().update();
+      const schema = contentSchema().readById();
       validateSchema(schema, req.body);
   
-      const item = await Page.findByPk(req.body.id);
+      const item = await Content.findByPk(req.params.id);
       if (!item) {
-        return res.status(404).json({ error: 'Page not found' });
+        return res.status(404).json({ error: 'Content not found' });
+      }
+  
+      res.status(200).json(item);
+    } catch (error) {
+        res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
+
+    }
+  }
+
+
+  export async function updateContent(req:any, res:any) {
+    try {
+      const schema = contentSchema().update();
+      validateSchema(schema, req.body);
+  
+      const item = await Content.findByPk(req.body.id);
+      if (!item) {
+        return res.status(404).json({ error: 'Content not found' });
       }
   
       await item.update(req.body);
@@ -93,18 +98,18 @@
   }
 
 
-  export async function deletePage(req:any, res:any) {
+  export async function deleteContent(req:any, res:any) {
     try {
-      const schema = pageSchema().destroy();
+      const schema = contentSchema().destroy();
       validateSchema(schema, req.body);
   
-      const item = await Page.findByPk(req.params.id);
+      const item = await Content.findByPk(req.params.id);
       if (!item) {
-        return res.status(404).json({ error: 'Page not found' });
+        return res.status(404).json({ error: 'Content not found' });
       }
   
       await item.destroy();
-      res.status(200).json({ message: 'Page deleted successfully' });
+      res.status(200).json({ message: 'Content deleted successfully' });
     } catch (error) {
         res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
 

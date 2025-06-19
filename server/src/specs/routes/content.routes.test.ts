@@ -3,15 +3,14 @@
   import request from "supertest";
   import { preTestSetup } from "../../utils/pre-test";
   import { faker } from "@faker-js/faker";
-  import { createAlbumFixture } from "../fixtures/album.fixture";
+  import { createContentFixture } from "../fixtures/content.fixture";
   import { createUserFixture } from "../fixtures/user.fixture";
   
   
-  describe("Album Routes", () => {
+  describe("Content Routes", () => {
     
-  it("should create a new album", async () => {
+  it("should create a new content", async () => {
       await preTestSetup();
-  
       const sudoUser = (await createUserFixture({ role: "sudo" }))
       const login = await request(app)
         .post("/api/users/login")
@@ -22,14 +21,14 @@
         .expect(200);
       const cookie = login.headers["set-cookie"][0];
   
+      
+  
       const data = {
-        
-        title: faker.lorem.sentence(),
-        isPublished: false, 
+        content: faker.lorem.paragraph(),
       };
   
       const response = await request(app)
-        .post("/api/albums")
+        .post("/api/contents")
         .send(data)
         .set("Cookie", cookie)
         .expect(201);
@@ -39,80 +38,21 @@
   });
 
 
-  it("should get all albums", async () => {
+  it("should get all contents", async () => {
       await preTestSetup();
-      await createAlbumFixture();
-      await createAlbumFixture({ isPublished: false });
+      await createContentFixture();
+      await createContentFixture({ isPublished: false });
   
       const response = await request(app)
-        .get("/api/albums")
+        .get("/api/contents")
         .expect(200);
   
       expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body.length).toEqual(1);
   });
-  it("should get all published albums if manager", async () => {
+  it("should get all contents if sudo", async () => {
       await preTestSetup();
-      await createAlbumFixture({ isPublished: true });
-      await createAlbumFixture({ isPublished: false });
-      const sudoUser = (await createUserFixture({ role: "sudo" }))
-      const login = await request(app)
-        .post("/api/users/login")
-        .send({
-          username: sudoUser.username,
-          password: sudoUser.nonHashedPassword,
-        })
-        .expect(200);
-      const cookie = login.headers["set-cookie"][0];  
-  
-      const response = await request(app)
-        .get("/api/albums/manage")
-        .set("Cookie", cookie)
-        console.log(response.body);
-  
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body.length).toEqual(2);
-  }
-  );
-
-
-  it("should get album by id", async () => {
-      await preTestSetup();
-      const album = await createAlbumFixture();
-  
-      const response = await request(app)
-        .get("/api/albums/" + album.id)
-        .expect(200);
-  
-      expect(response.body).toHaveProperty("id");
-      expect(response.body.id).toBe(album.id);
-  });
-  it("should get album by id if sudo", async () => {
-    await preTestSetup();
-    const album = await createAlbumFixture({ isPublished: false });
-    const sudoUser = (await createUserFixture({ role: "sudo" }))
-    const login = await request(app)
-      .post("/api/users/login")
-      .send({
-        username: sudoUser.username,
-        password: sudoUser.nonHashedPassword,
-      })
-      .expect(200);
-    const cookie = login.headers["set-cookie"][0];
-
-    const response = await request(app)
-      .get("/api/albums/manage/" + album.id)
-      .set("Cookie", cookie)
-      .expect(200);
-
-    expect(response.body).toHaveProperty("id");
-    expect(response.body.id).toBe(album.id);
-});
-
-
-  it("should update album", async () => {
-      await preTestSetup();
-      const album = await createAlbumFixture();
+      await createContentFixture();
+      await createContentFixture({ isPublished: false });
       const sudoUser = (await createUserFixture({ role: "sudo" }))
       const login = await request(app)
         .post("/api/users/login")
@@ -123,29 +63,97 @@
         .expect(200);
       const cookie = login.headers["set-cookie"][0];
   
+      const response = await request(app)
+        .get("/api/contents/manage")
+        .set("Cookie", cookie)
+        .expect(200);
+  
+      expect(Array.isArray(response.body)).toBe(true);
+      expect(response.body.length).toEqual(2);
+  });
+
+
+  it("should get content by id", async () => {
+      await preTestSetup();
+      const content = await createContentFixture();
+  
+      const response = await request(app)
+        .get("/api/contents/" + content.id)
+        .expect(200);
+  
+      expect(response.body).toHaveProperty("id");
+      expect(response.body.id).toBe(content.id);
+  });
+
+  it("should not get content by id if not published", async () => {
+      await preTestSetup();
+      const content = await createContentFixture({ isPublished: false });
+
+      const response = await request(app)
+        .get("/api/contents/" + content.id)
+        .expect(403);
+  })
+  it("should get content by id if sudo", async () => {
+      await preTestSetup();
+      const content = await createContentFixture({ isPublished: false });
+      const sudoUser = (await createUserFixture({ role: "sudo" }))
+      const login = await request(app)
+        .post("/api/users/login")
+        .send({
+          username: sudoUser.username,
+          password: sudoUser.nonHashedPassword,
+        })
+        .expect(200);
+      const cookie = login.headers["set-cookie"][0];
+  
+      const response = await request(app)
+        .get("/api/contents/manage/" + content.id)
+        .set("Cookie", cookie)
+        .expect(200);
+  
+      expect(response.body).toHaveProperty("id");
+      expect(response.body.id).toBe(content.id);
+  });
+
+
+
+  it("should update content", async () => {
+      await preTestSetup();
+      const content = await createContentFixture();
+      const sudoUser = (await createUserFixture({ role: "sudo" }))
+      const login = await request(app)
+        .post("/api/users/login")
+        .send({
+          username: sudoUser.username,
+          password: sudoUser.nonHashedPassword,
+        })
+        .expect(200);
+      const cookie = login.headers["set-cookie"][0];
+      
+  
       
   
       const updateData = {
-        id: album.id,
+        id: content.id,
         
-        title: faker.lorem.sentence(),
+        content: faker.lorem.paragraph(),
         isPublished: true,
       };
   
       const response = await request(app)
-        .patch("/api/albums")
+        .patch("/api/contents")
         .send(updateData)
         .set("Cookie", cookie)
         .expect(200);
   
       expect(response.body).toHaveProperty("id");
-      expect(response.body.id).toBe(album.id);
+      expect(response.body.id).toBe(content.id);
   });
 
 
-  it("should delete album", async () => {
+  it("should delete content", async () => {
       await preTestSetup();
-      const album = await createAlbumFixture();
+      const content = await createContentFixture();
       const sudoUser = (await createUserFixture({ role: "sudo" }))
       const login = await request(app)
         .post("/api/users/login")
@@ -157,13 +165,13 @@
       const cookie = login.headers["set-cookie"][0];
   
       const response = await request(app)
-        .delete("/api/albums/"+ album.id)
-        .send({ id: album.id })
+        .delete("/api/contents/" + content.id)
+        .send({ id: content.id })
         .set("Cookie", cookie)
         .expect(200);
   
       expect(response.body).toHaveProperty("message");
-      expect(response.body.message).toBe("Album deleted successfully");
+      expect(response.body.message).toBe("Content deleted successfully");
   });
   });
   

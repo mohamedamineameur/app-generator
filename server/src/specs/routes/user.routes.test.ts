@@ -6,7 +6,7 @@
   import { createUserFixture } from "../fixtures/user.fixture";
   
   
-  describe.skip("User Routes", () => {
+  describe("User Routes", () => {
     
   it("should create a new user", async () => {
       await preTestSetup();
