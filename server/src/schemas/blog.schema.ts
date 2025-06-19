@@ -6,7 +6,12 @@
     return {
       type: 'object',
       properties: {
-        title: {
+        titleFr: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 255,
+        },
+        titleEn: {
           type: 'string',
           minLength: 1,
           maxLength: 255,
@@ -17,7 +22,8 @@
         }
       },
       required: [
-        'title'
+        'titleFr',
+        'titleEn'
       ],
       additionalProperties: false,
     };
@@ -45,7 +51,12 @@
           type: 'string',
           format: 'uuid',
         },
-        title: {
+        titleFr: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 255,
+        },
+        titleEn: {
           type: 'string',
           minLength: 1,
           maxLength: 255,

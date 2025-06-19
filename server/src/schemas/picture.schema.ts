@@ -8,7 +8,11 @@ import { url } from "inspector";
       type: 'object',
       properties: {
        
-        description: {
+        descriptionFr: {
+          type: 'string',
+          maxLength: 500,
+        },
+        descriptionEn: {
           type: 'string',
           maxLength: 500,
         },
@@ -24,7 +28,8 @@ import { url } from "inspector";
       required: [
         
         'albumId',
-        'description'
+        'descriptionFr',
+        'descriptionEn',
       ],
       additionalProperties: false,
     };
@@ -58,7 +63,11 @@ import { url } from "inspector";
           type: 'string',
           format: 'uri',
         },
-        description: {
+        descriptionFr: {
+          type: 'string',
+          maxLength: 500,
+        },
+        descriptionEn: {
           type: 'string',
           maxLength: 500,
         },

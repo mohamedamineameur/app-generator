@@ -2,7 +2,8 @@ import api from "./main.service";
   
   export interface Album {
       id: string;
-    title: string;
+    titleFr: string;
+    titleEn: string;
   }
   
   export function albumService() {

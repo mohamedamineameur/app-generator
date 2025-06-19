@@ -3,7 +3,8 @@
   
   
   interface BlogOverrides {
-    title?: string;   
+    titleFr?: string;
+    titleEn?: string;   
     isPublished?: boolean;
   
   }
@@ -11,7 +12,8 @@
   export const createBlogFixture = async (overrides: BlogOverrides = {}) => {
   
     const blog = await Blog.create({
-      title: overrides.title || "Test Blog Title",
+      titleFr: overrides.titleFr || "Test Blog TitleFr",
+      titleEn: overrides.titleEn || "Test Blog TitleEn",
       isPublished: overrides.isPublished !== undefined ? overrides.isPublished : true,
     });
   

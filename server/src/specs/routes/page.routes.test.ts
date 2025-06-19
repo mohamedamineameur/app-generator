@@ -24,7 +24,8 @@
   
       const data = {
         
-        title: faker.lorem.sentence(),
+        titleFr: faker.lorem.sentence(),
+        titleEn: faker.lorem.sentence(),
         isPublished: faker.datatype.boolean(),
       };
   
@@ -51,7 +52,8 @@
       expect(Array.isArray(response.body)).toBe(true);
       expect(response.body.length).toEqual(1);
       expect(response.body[0]).toHaveProperty("id");
-      expect(response.body[0]).toHaveProperty("title");
+      expect(response.body[0]).toHaveProperty("titleFr");
+      expect(response.body[0]).toHaveProperty("titleEn");
       expect(response.body[0]).toHaveProperty("isPublished");
       expect(response.body[0].isPublished).toBe(true);
 
@@ -144,7 +146,7 @@
       const updateData = {
         id: page.id,
         
-        title: faker.lorem.sentence(),
+        titleFr: faker.lorem.sentence(),
         isPublished: faker.datatype.boolean(),
       };
   

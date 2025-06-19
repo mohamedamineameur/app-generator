@@ -3,6 +3,8 @@ import api from "./main.service";
   export interface Picture {
       id: string;
     url: string;
+    descriptionFr: string;
+    descriptionEn: string;
     isPublished: boolean;
   }
   

@@ -25,7 +25,8 @@
   
       const data = {
         
-        title: faker.lorem.sentence(),
+        titleFr: faker.lorem.sentence(),
+        titleEn: faker.lorem.sentence(),
         isPublished: faker.datatype.boolean(),
       };
   
@@ -142,7 +143,7 @@
       const updateData = {
         id: blog.id,
         
-        title: faker.lorem.sentence(),
+        titleFr: faker.lorem.sentence(),
         isPublished: faker.datatype.boolean(),
       };
   

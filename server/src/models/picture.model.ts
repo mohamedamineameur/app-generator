@@ -8,7 +8,8 @@ export class Picture extends Model {
   public albumId!: string;
   public url!: string;
   public isPublished!: boolean;
-  public description!: string;
+  public descriptionFr!: string;
+  public descriptionEn!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -43,7 +44,14 @@ Picture.init(
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
-    description: {
+    descriptionFr: {
+      type: DataTypes.STRING(500),
+      allowNull: true,
+      validate: {
+        len: [0, 500],
+      },
+    },
+    descriptionEn: {
       type: DataTypes.STRING(500),
       allowNull: true,
       validate: {
