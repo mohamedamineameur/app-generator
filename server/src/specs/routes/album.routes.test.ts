@@ -7,7 +7,7 @@
   import { createUserFixture } from "../fixtures/user.fixture";
   
   
-  describe.skip("Album Routes", () => {
+  describe("Album Routes", () => {
     
   it("should create a new album", async () => {
       await preTestSetup();

@@ -4,6 +4,7 @@ import albumRouter from "./album.routes";
 import pictureRouter from "./picture.routes";
 import blogRouter from "./blog.routes";
 import pageRouter from "./page.routes";
+import contentRouter from "./content.routes";
 
 
 const mainRouter = Router();
@@ -20,4 +21,5 @@ mainRouter.use("/api/albums", albumRouter);
 mainRouter.use("/api/pictures", pictureRouter);
 mainRouter.use("/api/blogs", blogRouter);
 mainRouter.use("/api/pages", pageRouter);
+mainRouter.use("/api/contents", contentRouter);
 export default mainRouter;
