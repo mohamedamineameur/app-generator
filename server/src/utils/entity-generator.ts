@@ -256,7 +256,7 @@ function generateSchemaFile(entityName: string, crudOperations: string[]): strin
     }).join('\n\n');
   
     return `
-  export function ${entityName}Schema(body: any) {
+  export function ${entityName}Schema() {
   
   ${crudFunctions}
   
@@ -390,7 +390,7 @@ function generateControllerFile(entityName: string, crudOperations: string[]): s
     return `
   export async function create${capitalize(entityName)}(req:any, res:any) {
     try {
-      const schema = ${entityName}Schema(req.body).create();
+      const schema = ${entityName}Schema().create();
       validateSchema(schema, req.body);
   
       const new${capitalize(entityName)} = await ${capitalize(entityName)}.create(req.body);
@@ -419,10 +419,10 @@ function generateControllerFile(entityName: string, crudOperations: string[]): s
     return `
   export async function get${capitalize(entityName)}ById(req:any, res:any) {
     try {
-      const schema = ${entityName}Schema(req.body).readById();
+      const schema = ${entityName}Schema().readById();
       validateSchema(schema, req.body);
   
-      const item = await ${capitalize(entityName)}.findByPk(req.body.id);
+      const item = await ${capitalize(entityName)}.findByPk(req.params.id);
       if (!item) {
         return res.status(404).json({ error: '${capitalize(entityName)} not found' });
       }
@@ -439,7 +439,7 @@ function generateControllerFile(entityName: string, crudOperations: string[]): s
     return `
   export async function update${capitalize(entityName)}(req:any, res:any) {
     try {
-      const schema = ${entityName}Schema(req.body).update();
+      const schema = ${entityName}Schema().update();
       validateSchema(schema, req.body);
   
       const item = await ${capitalize(entityName)}.findByPk(req.body.id);
@@ -460,10 +460,10 @@ function generateControllerFile(entityName: string, crudOperations: string[]): s
     return `
   export async function delete${capitalize(entityName)}(req:any, res:any) {
     try {
-      const schema = ${entityName}Schema(req.body).destroy();
+      const schema = ${entityName}Schema().destroy();
       validateSchema(schema, req.body);
   
-      const item = await ${capitalize(entityName)}.findByPk(req.body.id);
+      const item = await ${capitalize(entityName)}.findByPk(req.params.id);
       if (!item) {
         return res.status(404).json({ error: '${capitalize(entityName)} not found' });
       }
@@ -643,7 +643,7 @@ function generateControllerFile(entityName: string, crudOperations: string[]): s
       const ${entityName} = await create${capitalize(entityName)}Fixture();
   
       const response = await request(app)
-        .delete("/api/${entityName}s")
+        .delete("/api/${entityName}s/" + ${entityName}.id)
         .send({ id: ${entityName}.id })
         .expect(200);
   
@@ -696,7 +696,7 @@ function generateControllerFile(entityName: string, crudOperations: string[]): s
       case 'R': return `${entityName}Router.get("/", getAll${capitalize(entityName)}s);`;
       case 'RbyID': return `${entityName}Router.get("/:id", get${capitalize(entityName)}ById);`;
       case 'U': return `${entityName}Router.patch("/", update${capitalize(entityName)});`;
-      case 'D': return `${entityName}Router.delete("/", delete${capitalize(entityName)});`;
+      case 'D': return `${entityName}Router.delete("/:id", delete${capitalize(entityName)});`;
       default: return '';
     }
   }

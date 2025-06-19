@@ -7,8 +7,8 @@
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "NODE_ENV=test jest",
-    "generate": "ts-node src/utils/entity-generator.ts"
+    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles --forceExit",
+   "generate": "ts-node src/utils/entity-generator.ts"
   },
   "keywords": [],
   "author": "",

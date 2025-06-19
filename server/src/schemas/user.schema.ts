@@ -1,5 +1,5 @@
 
-  export function userSchema(body: any) {
+  export function userSchema() {
 
     function login() {
       return {
@@ -43,11 +43,17 @@
           minLength: 12,
           maxLength: 64          
         },
+        role:{
+          type: 'string',
+          enum: ['user', 'sudo'],
+          default: 'user'
+        }
       },
       required: [
         'username',
         'email',
-        'password'
+        'password',
+        'role'
       ],
       additionalProperties: false,
     };
@@ -68,14 +74,8 @@
 
 
   function readById() {
-    return {
-      type: 'object',
-      properties: {
-       
-      },
-     
-      additionalProperties: false,
-    };
+    return {}
+      
   }
   
 
@@ -102,6 +102,11 @@
           minLength: 12,
           maxLength: 64          
         },
+        role: {
+          type: 'string',
+          enum: ['user', 'sudo'],
+          default: 'user'
+        }
       },
       additionalProperties: false,
     };
@@ -111,11 +116,6 @@
 
   function destroy() {
     return {
-      type: 'object',
-      properties: {
-     
-      },
-      additionalProperties: false,
     };
   }
   

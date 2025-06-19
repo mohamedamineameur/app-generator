@@ -9,11 +9,24 @@
   // salte round for password hashing
   const saltRounds = parseInt(process.env.SALT_ROUNDS || '10', 10);
   
+  function isValidPassword(password:string) {
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{12,}$/;
+    return regex.test(password);
+  }
   
   export async function createUser(req:any, res:any) {
     try {
-      const schema = userSchema(req.body).create();
+      const schema = userSchema().create();
       validateSchema(schema, req.body);
+      if (!isValidPassword(req.body.password)) {
+        return res.status(400).json({
+          error: "The password must be at least 12 characters long and include at least one uppercase letter, one digit, and one special character."
+        });
+      }
+      
+      //test password regex
+
+
       // Hash the password before saving
       req.body.password = await bcrypt.hash(req.body.password, saltRounds);
       // Check if the user already exists
@@ -45,10 +58,10 @@
 
   export async function getUserById(req:any, res:any) {
     try {
-      const schema = userSchema(req.body).readById();
+      const schema = userSchema().readById();
       validateSchema(schema, req.body);
   
-      const item = await User.findByPk(req.body.id);
+      const item = await User.findByPk(req.params.id);
       if (!item) {
         return res.status(404).json({ error: 'User not found' });
       }
@@ -63,10 +76,15 @@
 
   export async function updateUser(req:any, res:any) {
     try {
-      const schema = userSchema(req.body).update();
+      const schema = userSchema().update();
       validateSchema(schema, req.body);
       // Hash the password if it is being updated
       if (req.body.password) {
+        if (!isValidPassword(req.body.password)) {
+          return res.status(400).json({
+            error: "The password must be at least 12 characters long and include at least one uppercase letter, one digit, and one special character."
+          });
+        }
         req.body.password = await bcrypt.hash(req.body.password, saltRounds);
       }
   
@@ -86,10 +104,10 @@
 
   export async function deleteUser(req:any, res:any) {
     try {
-      const schema = userSchema(req.body).destroy();
+      const schema = userSchema().destroy();
       validateSchema(schema, req.body);
   
-      const item = await User.findByPk(req.body.id);
+      const item = await User.findByPk(req.params.id);
       if (!item) {
         return res.status(404).json({ error: 'User not found' });
       }

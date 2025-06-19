@@ -17,7 +17,7 @@ export async function login(req: any, res: any) {
     if (!secretKey) {
         throw new Error("JWT_SECRET is not defined in the environment variables");
       }
-    const schema = userSchema(req.body).login();
+    const schema = userSchema().login();
     validateSchema(schema, req.body);
 
     // Find the user by username
@@ -32,16 +32,16 @@ export async function login(req: any, res: any) {
       return res.status(401).json({ error: "Invalid password" });
     }
 
-    // Generate a JWT token
-    const token = jsonwebtoken.sign({ id: user.id }, secretKey, { expiresIn: "1h" });
-
-    // Respond with the user data and token
-    res.status(200).json({
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      token,
+    // Generate a jwt in cookie
+    const token = jsonwebtoken.sign({ id: user.id, username: user.username }, secretKey, { expiresIn: "1h" });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+      sameSite: "Strict", // Prevent CSRF attacks
+      maxAge: 3600000 // 1 hour
     });
+    res.status(200).json({ message: "Login successful", user: { id: user.id, username: user.username } });
+    
   } catch (error) {
     res.status(400).json({ error: error instanceof Error ? error.message : "An unknown error occurred" });
   }
