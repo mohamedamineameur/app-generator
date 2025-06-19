@@ -14,10 +14,16 @@ import api from "./main.service";
       const getAllBlogs = async () => {
           return await api.get("/blogs");
       };
+      const getAllblogsManager = async () => {
+        return await api.get("/blogs/manage");
+    };
 
       const getBlogById = async (id: string) => {
           return await api.get("/blogs/" + id);
       };
+      const getBlogByIdManage = async (id: string) => {
+        return await api.get("/blogs/manage/" + id);
+    };
 
       const updateBlog = async (id: string, blog: Omit<Blog, "id">) => {
           return await api.patch("/blogs/" + id, blog);
@@ -32,7 +38,9 @@ import api from "./main.service";
         getAllBlogs,
         getBlogById,
         updateBlog,
-        deleteBlog
+        deleteBlog,
+        getAllblogsManager,
+        getBlogByIdManage
       };
   }
   

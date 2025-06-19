@@ -14,10 +14,16 @@ import api from "./main.service";
       const getAllPictures = async () => {
           return await api.get("/pictures");
       };
+        const getAllPicturesManager = async () => {
+            return await api.get("/pictures/manage");
+        }
 
       const getPictureById = async (id: string) => {
           return await api.get("/pictures/" + id);
       };
+        const getPictureByIdManage = async (id: string) => {
+            return await api.get("/pictures/manage/" + id);
+        };
 
       const updatePicture = async (id: string, picture: Omit<Picture, "id">) => {
           return await api.patch("/pictures/" + id, picture);
@@ -32,7 +38,9 @@ import api from "./main.service";
         getAllPictures,
         getPictureById,
         updatePicture,
-        deletePicture
+        deletePicture,
+        getAllPicturesManager,
+        getPictureByIdManage
       };
   }
   

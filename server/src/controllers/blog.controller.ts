@@ -27,6 +27,15 @@
 
     }
   }
+  export async function getAllblogsManager(req:any, res:any) {
+    try {
+      const items = await Blog.findAll();
+      res.status(200).json(items);
+    } catch (error) {
+        res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
+    }
+  }
+  
 
 
   export async function getBlogById(req:any, res:any) {
@@ -41,6 +50,24 @@
       if (!item.isPublished) {
         return res.status(403).json({ error: 'Blog is not published' });
       }
+  
+      res.status(200).json(item);
+    } catch (error) {
+        res.status(400).json({ error: (error instanceof Error) ? error.message : 'An unknown error occurred' });
+
+    }
+  }
+
+  export async function getBlogByIdManage(req:any, res:any) {
+    try {
+      const schema = blogSchema().readById();
+      
+  
+      const item = await Blog.findByPk(req.params.id);
+      if (!item) {
+        return res.status(404).json({ error: 'Blog not found' });
+      }
+     
   
       res.status(200).json(item);
     } catch (error) {

@@ -40,7 +40,7 @@
   });
 
 
-  it.only("should get all pictures", async () => {
+  it("should get all pictures", async () => {
       await preTestSetup();
       await createPictureFixture({isPublished: true});
       await createPictureFixture({isPublished: false});

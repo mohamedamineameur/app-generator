@@ -54,6 +54,30 @@
       expect(response.body.length).toEqual(1); 
   });
 
+  it("should get all blogs if sudo", async () => {
+    await preTestSetup();
+    await createBlogFixture();
+    await createBlogFixture({ isPublished: false });
+    const sudoUser = (await createUserFixture({ role: "sudo" }))
+    const login = await request(app)
+      .post("/api/users/login")
+      .send({
+        username: sudoUser.username,
+        password: sudoUser.nonHashedPassword,
+      })
+      .expect(200);
+    const cookie = login.headers["set-cookie"][0];
+
+
+    const response = await request(app)
+      .get("/api/blogs/manage")
+      .set("Cookie", cookie)
+      .expect(200);
+
+    expect(Array.isArray(response.body)).toBe(true);
+    expect(response.body.length).toEqual(2); 
+});
+
 
   it("should get blog by id", async () => {
       await preTestSetup();
@@ -66,6 +90,27 @@
       expect(response.body).toHaveProperty("id");
       expect(response.body.id).toBe(blog.id);
   });
+  it("should get blog by id if sudo", async () => {
+    await preTestSetup();
+    const blog = await createBlogFixture({ isPublished: false });
+    const sudoUser = (await createUserFixture({ role: "sudo" }))
+    const login = await request(app)
+      .post("/api/users/login")
+      .send({
+        username: sudoUser.username,
+        password: sudoUser.nonHashedPassword,
+      })
+      .expect(200);
+    const cookie = login.headers["set-cookie"][0];
+
+    const response = await request(app)
+      .get("/api/blogs/manage/" + blog.id)
+      .set("Cookie", cookie)
+      .expect(200);
+
+    expect(response.body).toHaveProperty("id");
+    expect(response.body.id).toBe(blog.id);
+});
   it("should not get blog by id", async () => {
     await preTestSetup();
     const blog = await createBlogFixture({ isPublished: false});

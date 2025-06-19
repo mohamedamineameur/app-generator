@@ -1,23 +1,21 @@
 
-  export function pageSchema() {
+  export function contentSchema() {
   
   
   function create() {
     return {
       type: 'object',
       properties: {
-        title: {
+        content: {
           type: 'string',
-          minLength: 1,
-          maxLength: 255,
-        },
-        isPublished: {
+          minLength: 1},
+          isPublished: {
           type: 'boolean',
           default: false, 
-        },
+          }
       },
       required: [
-        'title'
+        'content'
       ],
       additionalProperties: false,
     };
@@ -47,15 +45,14 @@
           type: 'string',
           format: 'uuid',
         },
-        title: {
+        content: {
           type: 'string',
           minLength: 1,
-          maxLength: 255,
         },
         isPublished: {
           type: 'boolean',
           default: false, 
-        },
+        }
       },
       additionalProperties: false,
     };
