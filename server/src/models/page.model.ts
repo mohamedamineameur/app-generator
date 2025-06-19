@@ -3,19 +3,17 @@ import { sequelize } from "../config/database";
 import { DataTypes, Model } from "sequelize";
 
 
-export class User extends Model {
+export class Page extends Model {
   public id!: number;
 
-  public username!: string;
-  public email!: string;
-  public password!: string;
-  public role!: string;
+  public title!: string;
+  public isPublished!: boolean;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
 
-User.init(
+Page.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -24,32 +22,23 @@ User.init(
       allowNull: false,
     },
     
-    username: {
+    title: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    role: {
-      type: DataTypes.ENUM,
-      values:["sudo","user"],
+    isPublished: {
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
   },
   {
     sequelize,
-    modelName: "User",
-    tableName: "users",
+    modelName: "Page",
+    tableName: "pages",
     timestamps: true,
   }
 );
 
 
 
-export default User;
+export default Page;

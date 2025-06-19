@@ -1,36 +1,38 @@
 import User from "../../models/user.model";
 import { faker } from "@faker-js/faker";
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+dotenv.config();
+
+const saltRounds = parseInt(process.env.SALT_ROUNDS || '10', 10);
 
 interface UserOverrides {
+  username?: string;
   email?: string;
+  role?: string;
   password?: string;
-  firstName?: string;
-  lastName?: string;
-  roleId?: number | null;
 }
 
-export const createUserFixture = (overrides: UserOverrides = {}) => {
-  if (!overrides.email) {
-    overrides.email = faker.internet.email();
-  }
-  if (!overrides.password) {
-    overrides.password = faker.internet.password();
-  }
-  if (!overrides.firstName) {
-    overrides.firstName = faker.person.firstName();
-  }
-  if (!overrides.lastName) {
-    overrides.lastName = faker.person.lastName();
-  }
-  if (!overrides.roleId) {
-    overrides.roleId = null
-  }
-  const user = User.create({
-    email: overrides.email,
-    password: overrides.password,
-    firstName: overrides.firstName,
-    lastName: overrides.lastName,
-    roleId: overrides.roleId,
+export const createUserFixture = async (overrides: UserOverrides = {}) => {
+  const defaultPassword = "StrongPassword1234@";
+
+  const username = overrides.username || faker.internet.username(); // ⚠️ remplacer userName() déprécié
+  const email = overrides.email || faker.internet.email();
+  const role = overrides.role || "user";
+  const plainPassword = overrides.password || defaultPassword;
+
+  const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+
+  const user = await User.create({
+    username,
+    email,
+    role,
+    password: hashedPassword,
   });
-  return user;
+
+  // ✅ Transforme en plain object et ajoute le mot de passe non hashé
+  return {
+    ...user.get({ plain: true }),
+    nonHashedPassword: plainPassword,
+  };
 };
