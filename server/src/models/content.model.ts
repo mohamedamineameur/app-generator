@@ -6,7 +6,8 @@ import { DataTypes, Model } from "sequelize";
 export class Content extends Model {
   public id!: number;
 
-  public content!: string;
+  public contentFr!: string;
+  public contentEn!: string;
   public isPublished!: boolean;
 
   public readonly createdAt!: Date;
@@ -22,7 +23,11 @@ Content.init(
       allowNull: false,
     },
     
-    content: {
+    contentFr: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    contentEn: {
       type: DataTypes.TEXT,
       allowNull: true,
     },

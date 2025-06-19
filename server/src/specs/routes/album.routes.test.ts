@@ -24,7 +24,8 @@
   
       const data = {
         
-        title: faker.lorem.sentence(),
+        titleFr: faker.lorem.sentence(),
+        titleEn: faker.lorem.sentence(),
         isPublished: false, 
       };
   
@@ -128,7 +129,7 @@
       const updateData = {
         id: album.id,
         
-        title: faker.lorem.sentence(),
+        titleFr: faker.lorem.sentence(),
         isPublished: true,
       };
   

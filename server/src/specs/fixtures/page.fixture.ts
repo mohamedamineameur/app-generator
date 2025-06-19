@@ -3,7 +3,8 @@
   
   
   interface PageOverrides {
-    title?: string;   
+    titleFr?: string;
+    titleEn?: string;   
     isPublished?: boolean;
   
   }
@@ -11,7 +12,8 @@
   export const createPageFixture = async (overrides: PageOverrides = {}) => {
   
     const page = await Page.create({
-      title: overrides.title || "Test Page Title",
+      titleFr: overrides.titleFr || "Test Page TitleFr",
+      titleEn: overrides.titleEn || "Test Page TitleEn",
       isPublished: overrides.isPublished !== undefined ? overrides.isPublished : true,
     });
   

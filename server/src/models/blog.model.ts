@@ -6,7 +6,8 @@ import { DataTypes, Model } from "sequelize";
 export class Blog extends Model {
   public id!: number;
 
-  public title!: string;
+  public titleFr!: string;
+  public titleEn!: string;
   public isPublished!: boolean;
 
   public readonly createdAt!: Date;
@@ -22,7 +23,11 @@ Blog.init(
       allowNull: false,
     },
     
-    title: {
+    titleFr: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    titleEn: {
       type: DataTypes.STRING,
       allowNull: true,
     },

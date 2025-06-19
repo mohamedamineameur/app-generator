@@ -25,7 +25,8 @@
   
       const data = {
         albumId: album.id.toString(),
-        description: faker.lorem.sentence(),        
+        descriptionFr: faker.lorem.sentence(),   
+        descriptionEn: faker.lorem.sentence(),     
         
       };
   
@@ -122,7 +123,7 @@ it("should get all pictures for management", async () => {
       const updateData = {
         id: picture.id,
         albumId: album.id.toString(),
-        description: faker.lorem.sentence(),
+        descriptionFr: faker.lorem.sentence(),
         isPublished: true,
       };
   

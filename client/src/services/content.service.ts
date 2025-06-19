@@ -2,7 +2,8 @@ import api from "./main.service";
   
   export interface Content {
       id: string;
-    content: string;
+    contentFr: string;
+    contentEn: string;
     isPublished: boolean;
   }
   

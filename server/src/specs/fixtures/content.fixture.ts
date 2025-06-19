@@ -3,7 +3,8 @@
   
   
   interface ContentOverrides {
-    content?: string;
+    contentFr?: string;
+    contentEn?: string;
     isPublished?: boolean;
   
   }
@@ -11,7 +12,8 @@
   export const createContentFixture = async (overrides: ContentOverrides = {}) => {
   
     const content = await Content.create({
-      content: overrides.content || "Test Content",
+      contentFr: overrides.contentFr || "Test ContentFr",
+      contentEn: overrides.contentEn || "Test ContentEn",
       isPublished: overrides.isPublished !== undefined ? overrides.isPublished : true,
     });
   

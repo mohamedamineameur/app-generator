@@ -6,16 +6,21 @@
     return {
       type: 'object',
       properties: {
-        content: {
+        contentFr: {
           type: 'string',
           minLength: 1},
           isPublished: {
           type: 'boolean',
           default: false, 
-          }
+          },
+        contentEn: {
+          type: 'string',
+          minLength: 1,
+        }
       },
       required: [
-        'content'
+        'contentFr',
+        'contentEn'
       ],
       additionalProperties: false,
     };
@@ -45,7 +50,11 @@
           type: 'string',
           format: 'uuid',
         },
-        content: {
+        contentFr: {
+          type: 'string',
+          minLength: 1,
+        },
+        contentEn: {
           type: 'string',
           minLength: 1,
         },

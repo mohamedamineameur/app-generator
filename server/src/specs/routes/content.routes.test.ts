@@ -24,7 +24,8 @@
       
   
       const data = {
-        content: faker.lorem.paragraph(),
+        contentFr: faker.lorem.paragraph(),
+        contentEn: faker.lorem.paragraph(),
       };
   
       const response = await request(app)
@@ -136,7 +137,7 @@
       const updateData = {
         id: content.id,
         
-        content: faker.lorem.paragraph(),
+        contentFr: faker.lorem.paragraph(),
         isPublished: true,
       };
   

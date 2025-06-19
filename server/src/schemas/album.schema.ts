@@ -7,7 +7,12 @@ import { title } from "process";
     return {
       type: 'object',
       properties: {
-        title: {
+        titleFr: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 255,
+        },
+        titleEn: {
           type: 'string',
           minLength: 1,
           maxLength: 255,
@@ -18,7 +23,8 @@ import { title } from "process";
         }
       },
       required: [
-        'title'
+        'titleFr',
+        'titleEn'
       ],
       additionalProperties: false,
     };
@@ -53,7 +59,12 @@ import { title } from "process";
           type: 'string',
           format: 'uuid',
         },
-        title: {
+        titleFr: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 255,
+        },
+        titleEn: {
           type: 'string',
           minLength: 1,
           maxLength: 255,
