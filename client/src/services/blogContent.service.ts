@@ -2,6 +2,8 @@ import api from "./main.service";
   
   export interface BlogContent {
       id: string;
+      blogId: string;
+      contentId: string;
     orderNumber: number;
   }
   

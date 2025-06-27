@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
 "test": "NODE_ENV=test ts-node src/run-tests.ts",
-   "generate": "ts-node src/utils/entity-generator.ts"
+   "generate": "ts-node src/utils/entity-generator.ts",
+   "admin-generate": "ts-node src/utils/admin-generate.ts"
   },
   "keywords": [],
   "author": "",

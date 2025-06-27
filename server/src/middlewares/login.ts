@@ -46,3 +46,13 @@ export async function login(req: any, res: any) {
     res.status(400).json({ error: error instanceof Error ? error.message : "An unknown error occurred" });
   }
 }
+
+export async function logout(req: any, res: any) {
+  try {
+    // Clear the cookie by setting its maxAge to 0
+    res.cookie("token", "", { maxAge: 0, httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "Strict" });
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    res.status(500).json({ error: error instanceof Error ? error.message : "An unknown error occurred" });
+  }
+}

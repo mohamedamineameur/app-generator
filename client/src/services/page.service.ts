@@ -26,8 +26,8 @@ import api from "./main.service";
         return await api.get("/pages/manage/" + id);
     };
 
-      const updatePage = async (id: string, page: Omit<Page, "id">) => {
-          return await api.patch("/pages/" + id, page);
+      const updatePage = async (id: string, page: Page) => {
+          return await api.patch("/pages", page);
       };
 
       const deletePage = async (id: string) => {

@@ -12,8 +12,7 @@
           },
           password: {
             type: 'string',
-            minLength: 12,
-            maxLength: 64
+            
           },
         },
         required: [

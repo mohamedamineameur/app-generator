@@ -28,13 +28,26 @@ import api from "./main.service";
       const deleteUser = async (id: string) => {
           return await api.delete("/users/" + id);
       };
+
+      const loginUser = async (credentials: { username: string; password: string }) => {
+          return await api.post("/users/login", credentials);
+      };
   
+      const me = async () => {
+          return await api.get("/users/me");
+      };
+      const logoutUser = async () => {
+          return await api.post("/users/logout");
+        };
       return {
           createUser,
         getAllUsers,
         getUserById,
         updateUser,
-        deleteUser
+        deleteUser,
+        loginUser,
+        me,
+        logoutUser
       };
   }
   
