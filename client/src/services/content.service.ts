@@ -28,7 +28,8 @@ import api from "./main.service";
             return await api.get("/contents/manage/" + id);
         };
 
-      const updateContent = async (id: string, content: Omit<Content, "id">) => {
+      const updateContent = async (id: string, content:Content) => {
+        console.log("Updating content with ID:", id, "and data:", content);
           return await api.patch("/contents/" + id, content);
       };
 

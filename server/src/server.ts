@@ -1,4 +1,3 @@
-// src/server.ts
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -14,19 +13,22 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
-app.use(cors());
+// ✅ Fix universel pour autoriser localhost avec cookies
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(helmet());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Default route
 app.use('/', mainRouter);
 
 if (process.env.NODE_ENV !== 'test') {
-  // Ne démarre pas le serveur en mode test
   sequelize.sync().then(() => {
     app.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);

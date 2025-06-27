@@ -1,0 +1,173 @@
+/* Style global */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/back.webp') no-repeat center center fixed;
+    background-size: cover;
+    color: #ccac70;
+    min-width: 420px; /* Ajoute ça pour éviter les débordements */
+  }
+  
+  body > * {
+    width: 100%;       /* Ajoute ça */
+    max-width: 1400px; /* si tu veux centrer avec une largeur max */
+  }
+  
+  
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  border-radius: 20px;
+  
+}
+
+/* Conteneur Markdown */
+.markdown-container {
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: #000;
+  color: #ccac70;
+  overflow-x: auto;
+}
+
+/* Tableaux Markdown */
+.markdown-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color: #000;
+  color: #ccac70;
+}
+
+.markdown-preview th,
+.markdown-preview td {
+  border: 1px solid #ccac70;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.markdown-preview th {
+  background-color: #000;
+}
+
+/* Code inline */
+.markdown-preview code {
+  background-color: #000;
+  color: #ccac70;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+/* Titres Markdown */
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3,
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+  color: #ccac70;
+  margin-top: 1.5rem;
+}
+
+/* Paragraphes Markdown */
+.markdown-preview p {
+  color: #ccac70;
+  line-height: 1.6;
+}
+
+/* Liens Markdown */
+.markdown-preview a {
+  color: #ccac70;
+  text-decoration: underline;
+}
+
+/* Blockquotes */
+.markdown-preview blockquote {
+  border-left: 4px solid #ccac70;
+  padding-left: 1rem;
+  color: #ccac70;
+  margin: 1rem 0;
+  background-color: #000;
+}
+
+/* Listes Markdown */
+.markdown-preview ul,
+.markdown-preview ol {
+  color: #ccac70;
+  padding-left: 2rem;
+}
+
+.markdown-preview li {
+  margin-bottom: 0.5rem;
+}
+.markdown-preview {
+    background-color: #000 !important;
+    color: #ccac70 !important;
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  
+  .markdown-preview * {
+    background-color: transparent !important;
+    color: #ccac70 !important;
+    border-color: #ccac70 !important;
+  }
+  
+  .markdown-preview pre {
+    background-color: #000 !important;
+    color: #ccac70 !important;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  
+  .markdown-preview code {
+    background-color: #111 !important;
+    color: #ccac70 !important;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+
+  @font-face {
+    font-family: "Pantai Bali";
+    src: url("./assets/Pantai Bali.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "Anavio";
+    src: url("./assets/Anavio.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+  }
+  @media (max-width: 570px) {
+    .logo-title {
+      font-size: 1.2rem !important;
+    }
+  
+    .logo-subtitle {
+      font-size: 1.5rem !important;
+    }
+    .image-container {
+     max-height: 100px !important;
+    }
+    .logo-div {
+     max-width: 180px !important;
+    }
+  }
+  

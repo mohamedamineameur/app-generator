@@ -2,6 +2,8 @@ import api from "./main.service";
   
   export interface PageContent {
       id: string;
+        pageId: string;
+        contentId: string;
     orderNumber: number;
   }
   
@@ -18,7 +20,7 @@ import api from "./main.service";
           return await api.get("/pageContents/" + id);
       };
 
-      const updatePageContent = async (id: string, pageContent: Omit<PageContent, "id">) => {
+      const updatePageContent = async (id: string, pageContent: PageContent) => {
           return await api.patch("/pageContents/" + id, pageContent);
       };
 

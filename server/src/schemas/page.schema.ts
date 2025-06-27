@@ -1,3 +1,4 @@
+import { up } from "inquirer/lib/utils/readline";
 
   export function pageSchema() {
   
@@ -67,6 +68,11 @@
           type: 'boolean',
           default: false, 
         },
+        updatedAt: {
+          type: 'string',}
+          ,
+          createdAt: {
+          type: 'string'}
       },
       additionalProperties: false,
     };

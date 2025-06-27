@@ -6,6 +6,7 @@ import api from "./main.service";
     descriptionFr: string;
     descriptionEn: string;
     isPublished: boolean;
+    albumId: string;
   }
   
   export function pictureService() {
