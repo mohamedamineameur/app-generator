@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import { sequelize } from './config/database';
 import mainRouter from './routes/main.routes';
 import path from 'path';
+import { adminGenerate } from './utils/admin-generate';
 
 const clientBuildPath = path.join(__dirname, '../../client/dist');
 
@@ -102,6 +103,7 @@ app.get('/gallery', (req, res) => {
 // Lancement du serveur
 if (process.env.NODE_ENV !== 'test') {
   sequelize.sync().then(() => {
+    void adminGenerate();
     app.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);
     });

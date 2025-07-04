@@ -40,6 +40,18 @@ export async function adminGenerate() {
     // Hash password
     const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, saltRounds);
 
+    // Check if user already exists
+    const existingUser = await User.findOne({
+      where: {
+        username: ADMIN_USERNAME,
+      },
+    });
+    if (existingUser) {
+      console.log(
+        `⚠️ User with username "${ADMIN_USERNAME}" already exists. Skipping creation.`
+      );
+      return;
+    }
     // Create user
     const newUser = await User.create({
       username: ADMIN_USERNAME,
