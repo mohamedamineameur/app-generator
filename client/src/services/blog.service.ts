@@ -26,8 +26,8 @@ import api from "./main.service";
         return await api.get("/blogs/manage/" + id);
     };
 
-      const updateBlog = async (id: string, blog: Omit<Blog, "id">) => {
-          return await api.patch("/blogs/" + id, blog);
+      const updateBlog = async (blog: Blog) => {
+          return await api.patch("/blogs/", blog);
       };
 
       const deleteBlog = async (id: string) => {

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { pageService } from "../../services/page.service";
 import { pageContentService } from "../../services/pageContent.service";
 import { contentService } from "../../services/content.service";
-import MarkdownEditor from "../../components/MarkdownEditor";
+import MarkdownEditor from "../../components/TinyMCEEditor";
 
 const PageEdit = () => {
   const { id } = useParams();
@@ -41,7 +41,7 @@ const PageEdit = () => {
 
     try {
         if (id) {
-            await pageService().updatePage(id, { id, titleFr, titleEn, isPublished: true });
+            await pageService().updatePage({ id, titleFr, titleEn, isPublished: true });
             const pageContentMatche = pageContents.find((p: any) => p.pageId === id);
           
             const pageContentMatch = await pageContentService().getPageContentById(pageContentMatche.id);

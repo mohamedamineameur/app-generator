@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { albumService } from "../../services/album.service";
 import { Link } from "react-router-dom";
 

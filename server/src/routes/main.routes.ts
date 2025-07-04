@@ -14,20 +14,17 @@ import blogMiniatureRouter from "./blogMiniature.routes";
 const mainRouter = Router();
 
 // Default route
-mainRouter.get("/", (_req, res) => {
-  res.send("API is running 🚀");
-}
-);
 
 
-mainRouter.use("/api/users", userRouter);
-mainRouter.use("/api/albums", albumRouter);
-mainRouter.use("/api/pictures", pictureRouter);
-mainRouter.use("/api/blogs", blogRouter);
-mainRouter.use("/api/pages", pageRouter);
-mainRouter.use("/api/contents", contentRouter);
-mainRouter.use("/api/pageContents", pageContentRouter);
-mainRouter.use("/api/blogContents", blogContentRouter);
-mainRouter.use("/api/albumMiniatures", albumMiniatureRouter);
-mainRouter.use("/api/blogMiniatures", blogMiniatureRouter);
+
+mainRouter.use("/users", userRouter);
+mainRouter.use("/albums", albumRouter);
+mainRouter.use("/pictures", pictureRouter);
+mainRouter.use("/blogs", blogRouter);
+mainRouter.use("/pages", pageRouter);
+mainRouter.use("/contents", contentRouter);
+mainRouter.use("/pageContents", pageContentRouter);
+mainRouter.use("/blogContents", blogContentRouter);
+mainRouter.use("/albumMiniatures", albumMiniatureRouter);
+mainRouter.use("/blogMiniatures", blogMiniatureRouter);
 export default mainRouter;

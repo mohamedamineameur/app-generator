@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { pageService } from "../../services/page.service";
 import { pageContentService } from "../../services/pageContent.service";
 import { contentService } from "../../services/content.service";
-import MarkdownViewer from "../../components/MarkdownViewer";
+import MarkdownViewer from "../../components/HtmlViewer";
 import { useLanguage } from "../../contexts/LanguageContext";
 
 interface Page {
