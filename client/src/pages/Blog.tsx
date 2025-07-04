@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { blogService } from "../services/blog.service";
 import { blogMiniatureService } from "../services/blogMiniature.service";
 import { useNavigate } from "react-router-dom";
@@ -59,6 +59,19 @@ const BlogList = () => {
 
           return (
             <Grid size={{ xs: 12, sm: 6, md: 4 }} key={blog.id}>
+                 <h1 style={{
+  position: "absolute",
+  width: "1px",
+  height: "1px",
+  padding: 0,
+  margin: "-1px",
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  whiteSpace: "nowrap",
+  border: 0
+}}>
+  <span lang="fr">Photographe de mariage à Ottawa – Thiziri</span> | <span lang="en">Wedding Photographer in Ottawa – Thiziri</span>
+</h1>
               <Card
                 sx={{
                   borderRadius: 3,

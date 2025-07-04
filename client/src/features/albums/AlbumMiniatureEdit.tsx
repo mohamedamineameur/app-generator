@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { albumMiniatureService } from "../../services/albumMiniature.service";
 import { pictureService } from "../../services/picture.service";
 import { useParams } from "react-router-dom";

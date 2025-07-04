@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -28,10 +27,19 @@ import AlbumEdit from "./features/albums/AlbumEdit";
 
 const App = () => {
   return (
-    <div style={{ backgroundColor: "#111", maxWidth:"1400px", }}>
+    <div
+  style={{
+    width: "100%",
+    background: "linear-gradient(to right, rgba(0, 0, 0, 0), #111 1%, #111 99%, rgba(0, 0, 0, 0))", margin: "0 auto",
+  }}
+>
       <Header />
       {/* Main content area */}
-      <main className="container" style={{ padding: "2rem", minHeight: "calc(100vh - 200px)", marginTop: "2rem", marginBottom: "2rem" }}>
+      <main className="container" style={{
+  minHeight: "calc(100vh - 200px)",
+  marginTop: "2rem",
+  marginBottom: "2rem",
+}}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { Navigate } from "react-router-dom";
 import { userService } from "../services/user.service";
 

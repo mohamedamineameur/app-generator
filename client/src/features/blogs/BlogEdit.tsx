@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { blogService } from "../../services/blog.service";
 import { blogContentService } from "../../services/blogContent.service";
 import { contentService } from "../../services/content.service";
-import MarkdownEditor from "../../components/MarkdownEditor";
+import TinyMCEEditor from "../../components/TinyMCEEditor";
 import BlogMiniatureEdit from "../blogs/BlogMiniatureEdit";
 
 const BlogEdit = () => {
@@ -38,7 +38,8 @@ const BlogEdit = () => {
 
     try {
       if (id) {
-        await blogService().updateBlog(id, {
+        await blogService().updateBlog({
+          id,
           titleFr,
           titleEn,
           isPublished: true,
@@ -49,7 +50,7 @@ const BlogEdit = () => {
         );
 
         if (match) {
-          await contentService().updateContent(match.contentId, {
+          await contentService().updateContent( {
             id: match.contentId,    
             contentFr,
             contentEn,
@@ -93,10 +94,10 @@ const BlogEdit = () => {
         <input value={titleEn} onChange={(e) => setTitleEn(e.target.value)} required />
 
         <label>Contenu (FR)</label>
-        <MarkdownEditor content={contentFr} setContent={setContentFr} />
+        <TinyMCEEditor content={contentFr} setContent={setContentFr} />
 
         <label>Contenu (EN)</label>
-        <MarkdownEditor content={contentEn} setContent={setContentEn} />
+        <TinyMCEEditor content={contentEn} setContent={setContentEn} />
 
         <button type="submit">Enregistrer</button>
       </form>

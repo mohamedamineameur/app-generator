@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { albumService } from "../../services/album.service";
 import PictureList from "../pictures/PictureList";

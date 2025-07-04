@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { blogService } from "../../services/blog.service";
 import { blogContentService } from "../../services/blogContent.service";
 import { contentService } from "../../services/content.service";
-import MarkdownViewer from "../../components/MarkdownViewer";
+import HtmlViewer from "../../components/HtmlViewer";
 import { useLanguage } from "../../contexts/LanguageContext";
 
 interface Blog {
@@ -29,38 +29,48 @@ const BlogView = () => {
 
   useEffect(() => {
     if (!id) return;
-
+  
     blogService().getBlogById(id).then((res) => setBlog(res.data));
-
-    blogContentService()
-      .getAllBlogContents()
-      .then(async (res) => {
-        const related = res.data
-          .filter((c: BlogContent) => c.blogId === id)
-          .sort((a:any, b:any) => a.orderNumber - b.orderNumber);
-
-        const contentPromises = related.map((p:any) =>
-          contentService().getContentById(p.contentId)
-        );
-        const contentResponses = await Promise.all(contentPromises);
-
-        const fullContents: BlogContent[] = related.map((rel:any, i:any) => ({
-          ...rel,
-          contentFr: contentResponses[i].data.contentFr,
-          contentEn: contentResponses[i].data.contentEn,
-        }));
-
-        setContents(fullContents);
-      });
+  
+    blogContentService().getAllBlogContents().then(async (res) => {
+      const match = res.data.find((c: BlogContent) => c.blogId === id);
+  
+      if (match) {
+        const contentRes = await contentService().getContentById(match.contentId);
+  
+        const fullContent: BlogContent = {
+          ...match,
+          contentFr: contentRes.data.contentFr,
+          contentEn: contentRes.data.contentEn,
+        };
+  
+        setContents([fullContent]); // Un seul contenu
+      }
+    });
   }, [id]);
+  
 
   return (
-    <div className="container" style={{ padding: "2rem" }}>
-      <h2>{language === "fr" ? blog?.titleFr : blog?.titleEn}</h2>
-      {contents.map((c, i) => (
-        <MarkdownViewer key={i} content={language === "fr" ? c.contentFr : c.contentEn} />
-      ))}
-    </div>
+    <div
+  className="container"
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "20px",
+    maxWidth: "100%", 
+    overflowX: "hidden", 
+    boxSizing: "border-box", 
+  }}
+>
+  {contents.map((c, i) => (
+    <HtmlViewer
+      key={i}
+      content={language === "fr" ? c.contentFr : c.contentEn}
+    />
+  ))}
+</div>
+
   );
 };
 

@@ -26,7 +26,7 @@ import api from "./main.service";
         return await api.get("/pages/manage/" + id);
     };
 
-      const updatePage = async (id: string, page: Page) => {
+      const updatePage = async (page: Page) => {
           return await api.patch("/pages", page);
       };
 

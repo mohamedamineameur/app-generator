@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Typography,
@@ -35,6 +34,19 @@ const ContactPage = () => {
 
   return (
     <Box sx={{ padding: 4, maxWidth: "900px", margin: "0 auto" }}>
+         <h1 style={{
+  position: "absolute",
+  width: "1px",
+  height: "1px",
+  padding: 0,
+  margin: "-1px",
+  overflow: "hidden",
+  clip: "rect(0, 0, 0, 0)",
+  whiteSpace: "nowrap",
+  border: 0
+}}>
+  <span lang="fr">Photographe de mariage à Ottawa – Thiziri</span> | <span lang="en">Wedding Photographer in Ottawa – Thiziri</span>
+</h1>
       <Typography
         variant="h4"
         sx={{ color: "#ccac70", fontWeight: "bold", mb: 3 }}

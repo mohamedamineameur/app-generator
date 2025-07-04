@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { pageService, type Page } from "../../services/page.service";
 import { Link as RouterLink } from "react-router-dom";
 import {
@@ -53,7 +53,7 @@ const PageList = () => {
 
   const handleTogglePublished = async (page: Page) => {
     try {
-      await pageService().updatePage(page.id, {
+      await pageService().updatePage({
         ...page,
         isPublished: !page.isPublished,
       });
