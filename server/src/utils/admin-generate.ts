@@ -1,64 +1,67 @@
-import prompts from 'prompts';
-import User from '../models/user.model';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import User from '../models/user.model';
 
 dotenv.config();
+
 const saltRounds = parseInt(process.env.SALT_ROUNDS || '10', 10);
 
 export async function adminGenerate() {
   try {
-    const response = await prompts([
-      {
-        type: 'text',
-        name: 'username',
-        message: 'Enter username:',
-        validate: value => value.length >= 3 ? true : 'Username must be at least 3 characters long'
-      },
-      {
-        type: 'text',
-        name: 'email',
-        message: 'Enter email:',
-        validate: value => /\S+@\S+\.\S+/.test(value) ? true : 'Invalid email format'
-      },
-      {
-        type: 'password',
-        name: 'password',
-        message: 'Enter password (at least 12 characters, one uppercase letter, one digit, and one special character):',
-        validate: value => /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{12,}$/.test(value) ? true : 'Password must meet the criteria'
-      },
-      {
-        type: 'select',
-        name: 'role',
-        message: 'Select role:',
-        choices: [
-          { title: 'User', value: 'user' },
-          { title: 'Sudo', value: 'sudo' }
-        ],
-        initial: 0
-      }
-    ]);
+    const {
+      ADMIN_USERNAME,
+      ADMIN_EMAIL,
+      ADMIN_PASSWORD,
+      ADMIN_ROLE,
+    } = process.env;
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(response.password, saltRounds);
+    // Validation
+    if (!ADMIN_USERNAME || ADMIN_USERNAME.length < 3) {
+      throw new Error('ADMIN_USERNAME must be at least 3 characters long');
+    }
 
-    // Create the user
+    if (!ADMIN_EMAIL || !/\S+@\S+\.\S+/.test(ADMIN_EMAIL)) {
+      throw new Error('ADMIN_EMAIL must be a valid email address');
+    }
+
+    if (
+      !ADMIN_PASSWORD ||
+      !/^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{12,}$/.test(ADMIN_PASSWORD)
+    ) {
+      throw new Error(
+        'ADMIN_PASSWORD must be at least 12 characters, contain an uppercase letter, a number, and a special character'
+      );
+    }
+
+    if (!['user', 'sudo'].includes(ADMIN_ROLE || '')) {
+      throw new Error('ADMIN_ROLE must be either "user" or "sudo"');
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(ADMIN_PASSWORD, saltRounds);
+
+    // Create user
     const newUser = await User.create({
-      username: response.username,
-      email: response.email,
+      username: ADMIN_USERNAME,
+      email: ADMIN_EMAIL,
       password: hashedPassword,
-      role: response.role
+      role: ADMIN_ROLE,
     });
 
-    console.log('Admin user created successfully:', newUser);
+    console.log('✅ Admin user created successfully:', newUser.username);
   } catch (error) {
-    console.error('Error creating admin user:', error instanceof Error ? error.message : 'An unknown error occurred');
+    console.error(
+      '❌ Error creating admin user:',
+      error instanceof Error ? error.message : error
+    );
   }
 }
 
 adminGenerate()
-  .then(() => console.log('Admin generation script completed'))
-  .catch(error => console.error('Error in admin generation script:', error instanceof Error ? error.message : 'An unknown error occurred'));
-
-// To run this script, you can use the command line:
-// npm run admin-generate
+  .then(() => console.log('✅ Admin generation script completed'))
+  .catch((error) =>
+    console.error(
+      '❌ Error in admin generation script:',
+      error instanceof Error ? error.message : error
+    )
+  );
