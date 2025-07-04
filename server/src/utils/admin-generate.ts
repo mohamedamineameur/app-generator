@@ -69,11 +69,3 @@ export async function adminGenerate() {
   }
 }
 
-adminGenerate()
-  .then(() => console.log('✅ Admin generation script completed'))
-  .catch((error) =>
-    console.error(
-      '❌ Error in admin generation script:',
-      error instanceof Error ? error.message : error
-    )
-  );
