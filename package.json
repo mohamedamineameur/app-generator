@@ -3,7 +3,7 @@
       "build": "npm run build-client && npm run build-server",
       "build-client": "cd client && npm install && npm run build",
       "build-server": "cd server && npm install && tsc",
-      "start": "node server/build/server.js"
+      "start": "nodemon server/build/server.js"
     }
   }
   
