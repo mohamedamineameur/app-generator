@@ -3,6 +3,8 @@ import React from "react";
 import "../index.css";
 import { useLanguage } from "../contexts/LanguageContext";
 import useInView from "../hooks/useInView";
+import {
+  Box} from "@mui/material";
 
 const Home = () => {
   const { language } = useLanguage();
@@ -13,23 +15,16 @@ const Home = () => {
   const [right2Ref, inViewRight2] = useInView();
 
   return (
-    <div
+    <Box
       style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        minHeight: "calc(100vh - 200px)",
-        marginTop: "2rem",
-        marginBottom: "2rem",
-        marginLeft: "1rem",
-        marginRight: "1rem",
+        padding: 4, maxWidth: "900px", margin: "0 auto" 
       }}
     >
       
 
       <div className="container" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-        <div style={{ overflow: "hidden", width: "95%", margin: "5rem" }}>
-        <img
+      <div style={{ overflow: "hidden", width: "100%", maxWidth: "900px", margin: "2rem auto" }}>
+      <img
   src="/bague.webp"
   alt="wedding ring"
   loading="eager" // CHANGER ça !
@@ -154,7 +149,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Box>
   );
 };
 

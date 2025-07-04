@@ -1,6 +1,6 @@
 /* Style global */
 html, body {
-  
+  overflow-x: hidden;
   }
   
   body {
@@ -226,3 +226,17 @@ html, body {
   opacity: 1;
   transform: translateX(0);
 }
+
+.responsive-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .responsive-section {
+    flex-direction: column;
+  }
+}
+
