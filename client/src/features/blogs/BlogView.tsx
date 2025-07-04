@@ -25,6 +25,7 @@ const BlogView = () => {
   const { id } = useParams();
   const { language } = useLanguage();
   const [blog, setBlog] = useState<Blog | null>(null);
+  console.log("BlogView rendered with id:", blog);
   const [contents, setContents] = useState<BlogContent[]>([]);
 
   useEffect(() => {

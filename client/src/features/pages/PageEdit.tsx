@@ -47,7 +47,7 @@ const PageEdit = () => {
             const pageContentMatch = await pageContentService().getPageContentById(pageContentMatche.id);
             if (pageContentMatch.data.length > 0) {
               const contentId = pageContentMatch.data[0].contentId;
-              await contentService().updateContent(contentId, {
+              await contentService().updateContent({
                 id: contentId,
                 contentFr,
                 contentEn,

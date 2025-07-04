@@ -14,7 +14,7 @@ const TinyMCEEditor = ({ content, setContent }: Props) => {
   return (
     <Editor
       apiKey="pfelax062eqx0qfh61xzualnhpnionqrb9aosnqkmvyiwbc0" // ou ta clé API TinyMCE
-      onInit={(evt, editor) => (editorRef.current = editor)}
+      onInit={(editor) => (editorRef.current = editor)}
       value={content}
       onEditorChange={(newValue) => setContent(newValue)}
       init={{
